@@ -2,7 +2,7 @@
 # Desafio de Projeto: Cluster Swarm
 ## DIO - Formação Docker Fundamentals
 
-Este repositório contém a solução automatizada para a criação de um cluster **Docker Swarm** utilizando **Vagrant** e **VirtualBox**. O ambiente é composto por 3 máquinas virtuais Linux (Ubuntu 22.04), provisionadas de forma totalmente automatizada para instalar o Docker, configurar o cluster Swarm e realizar o deploy de uma infraestrutura com serviços web (Nginx) e banco de dados (MySQL) distribuídos estrategicamente entre os nós.
+Este repositório contém a solução para o desafio de projeto que consiste na criação de um cluster **Docker Swarm** utilizando **Vagrant**. O ambiente é composto por 3 máquinas virtuais Linux (Ubuntu 22.04), provisionadas de forma totalmente automatizada para instalar o Docker, configurar o cluster Swarm e realizar o deploy de uma infraestrutura com serviços web (Nginx) e banco de dados (MySQL) distribuídos estrategicamente entre os nós.
 
 ---
 
