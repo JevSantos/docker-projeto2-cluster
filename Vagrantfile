@@ -1,10 +1,11 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby  :
 
+# Mapeamento do cluster reduzido para 3 nós
 machines = {
-  "master" => {"memory" => "1024", "cpu" => "1", "ip" => "100", "image" => "bento/ubuntu-22.04"},
-  "node01" => {"memory" => "1024", "cpu" => "1", "ip" => "101", "image" => "bento/ubuntu-22.04"},
-  "node02" => {"memory" => "1024", "cpu" => "1", "ip" => "102", "image" => "bento/ubuntu-22.04"}
+  "master" => {"memory" => "2048", "cpu" => "2", "ip" => "100", "image" => "bento/ubuntu-22.04"},
+  "node1"  => {"memory" => "1024", "cpu" => "1", "ip" => "101", "image" => "bento/ubuntu-22.04"},
+  "node2"  => {"memory" => "1024", "cpu" => "1", "ip" => "102", "image" => "bento/ubuntu-22.04"}
 }
 
 Vagrant.configure("2") do |config|
@@ -14,15 +15,19 @@ Vagrant.configure("2") do |config|
       machine.vm.box = "#{conf["image"]}"
       machine.vm.hostname = "#{name}"
       machine.vm.network "private_network", ip: "10.10.10.#{conf["ip"]}"
+      
       machine.vm.provider "virtualbox" do |vb|
         vb.name = "#{name}"
         vb.memory = conf["memory"]
         vb.cpus = conf["cpu"]
-        
+        vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       end
+      
+      # 1. Instala o Docker em todas as MVs
       machine.vm.provision "shell", path: "docker.sh"
       
-      if "#{name}" == "master"
+      # 2. Provisionamento condicional do Swarm
+      if name == "master"
         machine.vm.provision "shell", path: "master.sh"
       else
         machine.vm.provision "shell", path: "worker.sh"
