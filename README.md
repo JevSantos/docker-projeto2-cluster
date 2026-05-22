@@ -39,70 +39,65 @@ Antes de iniciar, você precisará ter instalado em sua máquina física:
 ### Passo a Passo
 
 1. **Clone este repositório:**
-   ```bash
+   ``
    git clone [https://github.com/SEU-USUARIO/NOME-DO-REPOSITORIO.git](https://github.com/SEU-USUARIO/NOME-DO-REPOSITORIO.git)
    cd NOME-DO-REPOSITORIO
-
+``
     Inicie o provisionamento:
     Basta executar o comando abaixo. O Vagrant baixará a imagem base do Ubuntu (box da Bento) e configurará as três máquinas sequencialmente:
-    Bash
-
+    ``
     vagrant up
+   ``
 
     Nota: O processo pode levar alguns minutos na primeira execução dependendo da sua conexão com a internet.
-
     Verifique o andamento:
     O script da master possui um intervalo de segurança de 15 segundos (sleep 15) para garantir que os nós node1 e node2 concluam suas conexões antes de distribuir os serviços.
 
-🔍 Validando o Ambiente
+## 🔍 Validando o Ambiente
 
 Após o terminal ser liberado e o deploy ser concluído, você pode validar o funcionamento do cluster acessando a máquina gerenciadora:
 
-    Acesse o nó Master via SSH:
-    Bash
-
+Acesse o nó Master via SSH:
+```
     vagrant ssh master
+```
+Verifique o status dos nós do cluster:
+```
+   docker node ls
+```    
+Você deverá ver os 3 nós listados, com a master marcada como Leader.
 
-    Verifique o status dos nós do cluster:
-    Bash
-
-    docker node ls
-
-    Você deverá ver os 3 nós listados, com a master marcada como Leader.
-
-    Confirme onde os serviços foram alocados:
-    Bash
-
+Confirme onde os serviços foram alocados:
+```
     docker stack ps minha_infra
+```
+O retorno deste comando mostrará o container do Nginx (web) rodando estritamente no node1 e o container do MySQL (db) rodando estritamente no node2.
 
-    O retorno deste comando mostrará o container do Nginx (web) rodando estritamente no node1 e o container do MySQL (db) rodando estritamente no node2.
-
-    Teste de Acesso Web:
-    Abra o navegador no seu sistema operacional físico e acesse o endereço do node1:
-    Plaintext
+Teste de Acesso Web:
+Abra o navegador no seu sistema operacional físico e acesse o endereço do node1:
 
     [http://10.10.10.101](http://10.10.10.101)
 
-    A página padrão de boas-vindas do Nginx deverá ser exibida.
+A página padrão de boas-vindas do Nginx deverá ser exibida.
 
-🛑 Comandos Úteis de Gerenciamento
+## 🛑 Comandos Úteis de Gerenciamento
 
 Caso precise parar ou reiniciar o laboratório, utilize os comandos do Vagrant na pasta do projeto:
 
-    Pausar as MVs (sem perder dados): vagrant halt
+* Pausar as MVs (sem perder dados): vagrant halt
 
-    Ligar as MVs novamente: vagrant up
+* Ligar as MVs novamente: vagrant up
 
-    Destruir o laboratório por completo (limpar espaço): vagrant destroy -f
+* Destruir o laboratório por completo (limpar espaço): vagrant destroy -f
 
-🎓 Conclusão e Aprendizados
+## 🎓 Conclusão e Aprendizados
 
 Este projeto prático consolida os fundamentos abordados na Formação Docker Fundamentals da DIO, exemplificando conceitos vitais como:
 
-    Provisionamento de infraestrutura como código (IaC) com Vagrant.
+* Provisionamento de infraestrutura como código (IaC) com Vagrant.
 
-    Orquestração nativa de containers com Docker Swarm.
+* Orquestração nativa de containers com Docker Swarm.
 
-    Uso de restrições de implantação (placement constraints) baseadas em metadados (node labels).
+* Uso de restrições de implantação (placement constraints) baseadas em metadados (node labels).
 
-    Resolução de concorrência e sincronismo em scripts de automação de redes de computadores.
+* Resolução de concorrência e sincronismo em scripts de automação de redes de computadores.
